@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -68,16 +70,46 @@ public class Employee {
         } else{
             //store end time, calculate time worked by employee
             double endTime = time;
-            double timeWorked = endTime - startTime;
-            //check if employee worked at all
-            if(timeWorked > 0){
-                //store hours worked
-                hoursWorked+=timeWorked;
-            }
+            hoursWorked = endTime - startTime;
             //clock employee out and display confirmation
             clockedIn = false;
-            System.out.println("Clocked out at: " + time + "\n Hours worked: " + timeWorked);
+            System.out.println("Clocked out at: " + time + "\n Hours worked: " + hoursWorked);
         }
+    }
+
+    public void punchTimeCard(){
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime clockInTime = LocalTime.now();
+        LocalTime clockOutTime;
+
+        if(!clockedIn){
+            //clockInTime = LocalTime.now();
+            String formattedClockIn = clockInTime.format(timeFormat);
+            clockedIn = true;
+
+            System.out.println("Clocked in at: " + formattedClockIn);
+
+        }else{
+
+            clockOutTime = LocalTime.now().plusHours(9).plusMinutes(31);
+            String formattedClockOut = clockOutTime.format(timeFormat);
+
+            //Duration class is used to get time difference between two points in time
+            Duration timeWorkedDuration = Duration.between(clockInTime,clockOutTime);
+
+            //After getting the time difference, can extract the Hours, Minutes, and/or Seconds then store in variable
+            double hours = timeWorkedDuration.toHours();
+            //get total minutes dividing by 60 and taking remainder, 126 minutes == 2hrs 6 min, Duration minutes = 2 min
+            double minutes = timeWorkedDuration.toMinutes() % 60;
+
+            hoursWorked += (hours + minutes);
+            System.out.println("Clocked out at: " + formattedClockOut + " |Hours worked: " + hours + " hours " + minutes + " minutes.");
+
+            clockedIn = false;
+
+        }
+
+
     }
 
     public double getTotalPay(){
