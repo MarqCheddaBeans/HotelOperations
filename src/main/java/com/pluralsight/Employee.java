@@ -1,5 +1,8 @@
 package com.pluralsight;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class Employee {
 
     private int id;
@@ -10,11 +13,15 @@ public class Employee {
     private double startTime;
     private boolean clockedIn;
 
-    public double getTotalPay(double payRate,double hoursWorked){
-        return payRate*hoursWorked;
+
+    public Employee(int id, String name, String department, double payRate) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.payRate = payRate;
     }
-    public double getRegularHours(double hoursWorked){
-        double regularHours;
+
+    public double getRegularHours(){
         if (hoursWorked <= 40){
             return hoursWorked;
         } else{
@@ -22,12 +29,32 @@ public class Employee {
         }
     }
 
-    public double getOvertimeHours(double hoursWorked){
+    public double getOvertimeHours(){
         if(hoursWorked > 40){
             return hoursWorked - 40;
         }else{
             return 0;
         }
+    }
+
+    public void setHoursWorked(double hoursWorked) {
+        this.hoursWorked = hoursWorked;
+    }
+
+    public void setStartTime(double startTime) {
+        this.startTime = startTime;
+    }
+
+    public double getPayRate() {
+        return payRate;
+    }
+
+    public double getHoursWorked() {
+        return hoursWorked;
+    }
+
+    public double getStartTime() {
+        return startTime;
     }
 
     public void punchTimeCard(double time){
@@ -52,4 +79,13 @@ public class Employee {
             System.out.println("Clocked out at: " + time + "\n Hours worked: " + timeWorked);
         }
     }
+
+    public double getTotalPay(){
+
+        double regularPay = getRegularHours() * getPayRate();
+        double overtimePay = getOvertimeHours() * (payRate*1.5);
+
+        return regularPay + overtimePay;
+    }
+
 }
