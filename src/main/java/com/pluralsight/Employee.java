@@ -1,7 +1,6 @@
 package com.pluralsight;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -20,6 +19,17 @@ public class Employee {
         this.id = id;
         this.name = name;
         this.department = department;
+        this.payRate = payRate;
+    }
+
+    public Employee(String name,double hoursWorked, double payRate){
+        this.name = name;
+        this.payRate = payRate;
+        this.hoursWorked = hoursWorked;
+    }
+
+    public Employee(String name,double payRate){
+        this.name = name;
         this.payRate = payRate;
     }
 
@@ -116,6 +126,7 @@ public class Employee {
 
         double regularPay = getRegularHours() * getPayRate();
         double overtimePay = getOvertimeHours() * (payRate*1.5);
+        System.out.println("Total pay is: " + (regularPay+overtimePay));
 
         return regularPay + overtimePay;
     }

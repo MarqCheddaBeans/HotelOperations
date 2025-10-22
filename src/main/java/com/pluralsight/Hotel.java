@@ -12,6 +12,7 @@ public class Hotel {
         this.name = name;
         this.numOfSuites = numOfSuites;
         this.numOfRooms = numOfRooms;
+        //Default to 0
         this.bookedSuites = 0;
         this.bookedRooms = 0;
     }
@@ -49,6 +50,7 @@ public class Hotel {
         //A user should be able to book one or more rooms (if they are available). The user
         //will specify how many rooms they would like, and if it is a suite or a basic room
 
+
         if(this.numOfRooms != 0 && rooms <= this.numOfRooms && !isSuite){
             bookedRooms = bookedRooms + rooms;
             this.numOfRooms = this.numOfRooms - rooms;
@@ -68,11 +70,11 @@ public class Hotel {
     }
 
     public int getAvailableRooms(){
-        return numOfRooms;
+        return this.getNumOfRooms() - this.getBookedRooms();
     }
 
     public int getAvailableSuites(){
-        return numOfSuites;
+        return this.getNumOfSuites() - this.getBookedSuites();
     }
 
 }
